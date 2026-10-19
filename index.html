@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fast-Cash Command Center — WhatsApp Outreach & Website Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #121620;
+      --card: #181d2a;
+      --accent: #f59e0b;
+      --green: #25D366;
+      --blue: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(255,255,255,0.09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 28px 4% 80px;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, #161b28 0%, #0f131d 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(37, 211, 102, 0.15);
+      color: var(--green);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    h1 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin-bottom: 8px; }
+    header p { color: var(--muted); font-size: 0.96rem; max-width: 780px; }
+
+    /* Step Banner */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .step-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .step-num {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .step-card h3 { font-size: 1rem; margin-bottom: 6px; }
+    .step-card p { font-size: 0.85rem; color: var(--muted); }
+
+    /* Base URL Bar */
+    .url-config {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .url-config-text { flex: 1; min-width: 260px; }
+    .url-config-text h4 { color: var(--blue); font-size: 0.95rem; margin-bottom: 4px; }
+    .url-config-text p { color: var(--muted); font-size: 0.82rem; }
+    .url-input-wrap { display: flex; gap: 8px; flex: 1; min-width: 280px; }
+    input, select, textarea {
+      background: #090b10;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      width: 100%;
+    }
+
+    /* Leads Grid */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 14px;
+    }
+    .leads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 18px;
+    }
+    .lead-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .lead-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .lead-name { font-size: 1.1rem; font-weight: 800; }
+    .lead-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .lead-meta {
+      font-size: 0.83rem;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .pitch-box {
+      width: 100%;
+      height: 138px;
+      resize: vertical;
+      font-size: 0.81rem;
+      line-height: 1.45;
+      background: #0d1017;
+    }
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .btn {
+      border: none;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn-preview {
+      grid-column: span 2;
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .btn-copy {
+      background: #262e42;
+      color: var(--text);
+    }
+    .btn-wa {
+      background: var(--green);
+      color: #000;
+    }
+
+    /* Custom Builder */
+    .custom-builder {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-top: 36px;
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 14px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="tag">💰 $0-to-Cash Outreach Dashboard</span>
+      <h1>Your Ready-to-Pitch Business Websites & WhatsApp Scripts</h1>
+      <p>I have already researched <strong>9 real businesses</strong> with active WhatsApp numbers, built a custom interactive website for every single one of them, and drafted the exact WhatsApp messages for you to send right now.</p>
+    </header>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">Step 1 • Preview / Record</div>
+        <h3>Open Their Custom Site</h3>
+        <p>Click <strong>"👁️ Open Custom Website"</strong> on any business below. Each link automatically loads their exact business name, location, services, and WhatsApp booking cart!</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 2 • Free Public Link (Optional)</div>
+        <h3>Host for Free in 10 Seconds</h3>
+        <p>Go to <a href="https://app.netlify.com/drop" target="_blank" style="color:var(--blue)">app.netlify.com/drop</a> and drag-and-drop this folder (`money_maker_kit`). Paste your free `.netlify.app` link below so owners can open it on their phones!</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 3 • Send & Collect Cash</div>
+        <h3>Click "Send on WhatsApp"</h3>
+        <p>Send the pre-written message (+ a screenshot or screen recording of their site). Charge <strong>KSh 4,500 – KSh 10,000 ($35–$80)</strong> via M-Pesa once they say yes!</p>
+      </div>
+    </div>
+
+    <div class="url-config">
+      <div class="url-config-text">
+        <h4>🌐 Optional: Paste Your Public Website URL Here</h4>
+        <p>If you drag this folder to <strong>app.netlify.com/drop</strong>, paste the URL here (e.g. <code>https://my-agency.netlify.app</code>) and all 9 WhatsApp messages will automatically update with live clickable links!</p>
+      </div>
+      <div class="url-input-wrap">
+        <input type="text" id="public-base-url" value="https://djoe5.github.io/vip-booking-preview" placeholder="https://your-site-name.netlify.app" oninput="renderLeads()" />
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2>🔥 9 Real Researched Businesses Ready to Message Today</h2>
+    </div>
+
+    <div class="leads-grid" id="leads-container"></div>
+
+    <!-- Custom Generator for ANY Business -->
+    <div class="custom-builder">
+      <h2>➕ Generate a Custom Site & WhatsApp Pitch for ANY Business</h2>
+      <p style="color:var(--muted); font-size:0.88rem;">Spot a barbershop, salon, car wash, or restaurant on Google Maps or Instagram? Type their details below to instantly generate their website & pitch:</p>
+      <div class="builder-grid">
+        <input type="text" id="c-name" placeholder="Business Name (e.g. Kings Cuts)" />
+        <select id="c-type">
+          <option value="barber">Barbershop / Salon / Spa</option>
+          <option value="carwash">Car Wash / Auto Detailing</option>
+          <option value="restaurant">Restaurant / Grill / Cafe</option>
+        </select>
+        <input type="text" id="c-loc" placeholder="Location (e.g. Kilimani, Nairobi)" />
+        <input type="text" id="c-phone" placeholder="WhatsApp (e.g. +254 712 345 678)" />
+      </div>
+      <button class="btn btn-wa" style="padding: 12px 20px;" onclick="addCustomLead()">⚡ Generate Custom Website & Pitch</button>
+    </div>
+  </div>
+
+  <script>
+    const LEADS = [
+      {
+        name: "Royal African Barbers",
+        type: "barber",
+        loc: "Lavington & CBD, Nairobi",
+        ig: "@royalafrican_barbers_lavington",
+        phone: "254111380501",
+        displayPhone: "+254 111 380 501"
+      },
+      {
+        name: "Head Office Salon & Barbershop",
+        type: "barber",
+        loc: "Gateway Mall, Syokimau",
+        ig: "@head.office254",
+        phone: "254114414817",
+        displayPhone: "+254 114 414 817"
+      },
+      {
+        name: "Irresistible Salon, Barber & Spa",
+        type: "barber",
+        loc: "Shell Karen End, Nairobi",
+        ig: "@irresistible_spa",
+        phone: "254757181976",
+        displayPhone: "+254 757 181 976"
+      },
+      {
+        name: "Genius Cedar Auto World",
+        type: "carwash",
+        loc: "Fourways Junction, Kiambu Rd",
+        ig: "Genius Cedar Auto World",
+        phone: "254707191919",
+        displayPhone: "+254 707 191 919"
+      },
+      {
+        name: "Mepals Car Wash & Detailing",
+        type: "carwash",
+        loc: "Ciata Mall, Kiambu Rd",
+        ig: "@mepals_carwash",
+        phone: "254111412212",
+        displayPhone: "+254 111 412 212"
+      },
+      {
+        name: "The Auto Clinic Runda",
+        type: "carwash",
+        loc: "Northern Bypass, Runda",
+        ig: "@theautoclinicrundaofficial",
+        phone: "254724320000",
+        displayPhone: "+254 724 320 000"
+      },
+      {
+        name: "Friends Restaurant",
+        type: "restaurant",
+        loc: "Astrol Rosslyn, Red Hill Rd",
+        ig: "@friends.nairobi",
+        phone: "254116414141",
+        displayPhone: "+254 116 414 141"
+      },
+      {
+        name: "Bush Cayenne Restaurant",
+        type: "restaurant",
+        loc: "Karen, Nairobi",
+        ig: "@bushcayenne_restaurant",
+        phone: "254705445500",
+        displayPhone: "+254 705 445 500"
+      },
+      {
+        name: "Salt & Pepper Kenya",
+        type: "restaurant",
+        loc: "Rose Avenue, Kilimani",
+        ig: "@saltandpepperkenya",
+        phone: "254101777100",
+        displayPhone: "+254 101 777 100"
+      }
+    ];
+
+    function buildQuery(lead) {
+      return `demo.html?biz=${encodeURIComponent(lead.name)}&type=${encodeURIComponent(lead.type)}&loc=${encodeURIComponent(lead.loc)}&phone=${encodeURIComponent(lead.phone)}`;
+    }
+
+    function buildPitch(lead, publicLink) {
+      const actionWord = lead.type === "restaurant" ? "view your menu & send delivery/table orders" : "view your packages & book appointments";
+      const linkLine = publicLink
+        ? `\n👉 ${publicLink}\n`
+        : `\n(I'm sending you a quick screenshot/preview of how it looks right here!)\n`;
+
+      return `Hello ${lead.name} team! 👋 I came across your page (${lead.ig}) and really loved your work in ${lead.loc}.\n\nI noticed you don't have a fast 1-click booking website in your bio yet, so I went ahead and built a custom working preview specifically for *${lead.name}* where clients can ${actionWord} directly to your WhatsApp:${linkLine}\nTry tapping a few items on it—it automatically calculates the total in KSh and sends the booking straight to your WhatsApp number.\n\nIf you like it, I can customize the exact prices/photos for you and set it up as your official bio link today for a one-off KSh 5,000. Would you like me to adjust any prices on it for you?`;
+    }
+
+    function renderLeads() {
+      const baseInput = document.getElementById("public-base-url").value.trim().replace(/\/$/, "");
+      const container = document.getElementById("leads-container");
+      container.innerHTML = "";
+
+      LEADS.forEach((lead, idx) => {
+        const relUrl = buildQuery(lead);
+        const publicUrl = baseInput ? `${baseInput}/${relUrl}` : "";
+        const pitch = buildPitch(lead, publicUrl);
+
+        const card = document.createElement("div");
+        card.className = "lead-card";
+        card.innerHTML = `
+          <div>
+            <div class="lead-top">
+              <div class="lead-name">${lead.name}</div>
+              <span class="lead-badge">${lead.type}</span>
+            </div>
+            <div class="lead-meta" style="margin-top:6px;">
+              <span>📍 ${lead.loc}</span>
+              <span>📸 IG: ${lead.ig}</span>
+              <span>📞 WhatsApp: <strong>${lead.displayPhone}</strong></span>
+            </div>
+          </div>
+
+          <textarea class="pitch-box" id="pitch-${idx}">${pitch}</textarea>
+
+          <div class="btn-row">
+            <a href="${relUrl}" target="_blank" class="btn btn-preview">
+              👁️ Open Custom Website for ${lead.name}
+            </a>
+            <button class="btn btn-copy" onclick="copyPitch(${idx}, this)">
+              📋 Copy Pitch
+            </button>
+            <button class="btn btn-wa" onclick="sendWa(${idx}, '${lead.phone}')">
+              📲 Send on WhatsApp
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function copyPitch(idx, btn) {
+      const text = document.getElementById(`pitch-${idx}`).value;
+      navigator.clipboard.writeText(text);
+      const old = btn.textContent;
+      btn.textContent = "✅ Copied!";
+      setTimeout(() => (btn.textContent = old), 1800);
+    }
+
+    function sendWa(idx, phone) {
+      const text = document.getElementById(`pitch-${idx}`).value;
+      const cleanPhone = phone.replace(/[^0-9]/g, "");
+      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, "_blank");
+    }
+
+    function addCustomLead() {
+      const name = document.getElementById("c-name").value.trim();
+      const type = document.getElementById("c-type").value;
+      const loc  = document.getElementById("c-loc").value.trim() || "Nairobi";
+      const rawPhone = document.getElementById("c-phone").value.trim() || "+254700000000";
+      if (!name) {
+        alert("Please enter a business name first!");
+        return;
+      }
+      LEADS.unshift({
+        name,
+        type,
+        loc,
+        ig: "Instagram / Google Maps",
+        phone: rawPhone.replace(/[^0-9]/g, ""),
+        displayPhone: rawPhone
+      });
+      renderLeads();
+      window.scrollTo({ top: 350, behavior: "smooth" });
+    }
+
+    renderLeads();
+  </script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">VIP Booking & Ordering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --card: #141821;
+      --card-hover: #1c2230;
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.25);
+      --green: #25D366;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 100px;
+    }
+    /* Top Preview Banner (Can be hidden with ?preview=0) */
+    .preview-bar {
+      background: linear-gradient(90deg, #f59e0b, #ea580c);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-align: center;
+      padding: 8px 16px;
+      letter-spacing: 0.3px;
+    }
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 5%;
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 13, 18, 0.88);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-badge {
+      background: var(--accent);
+      color: #000;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 99px;
+      text-transform: uppercase;
+    }
+    .nav-cta {
+      background: var(--green);
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 9px 16px;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s;
+    }
+    .nav-cta:hover { transform: scale(1.04); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: 72px 5% 56px;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(11,13,18,0.75) 0%, rgba(11,13,18,0.96) 100%);
+    }
+    .hero-content {
+      position: relative;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .loc-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.1rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-val { font-weight: 800; font-size: 1.25rem; color: var(--accent); }
+    .stat-lbl { font-size: 0.78rem; color: var(--muted); }
+
+    /* Container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 5%;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 24px;
+    }
+
+    /* Service Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .service-card:hover {
+      background: var(--card-hover);
+      transform: translateY(-2px);
+    }
+    .service-card.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+      background: rgba(245, 158, 11, 0.07);
+    }
+    .service-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .service-name {
+      font-weight: 700;
+      font-size: 1.02rem;
+    }
+    .service-price {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .service-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+    .select-indicator {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Booking Box */
+    .booking-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0b0d12;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .wa-submit {
+      width: 100%;
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .wa-submit:hover { transform: translateY(-2px); opacity: 0.95; }
+
+    /* Floating sticky bar */
+    .sticky-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 580px;
+      background: #181d28;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.65);
+      border-radius: 16px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 90;
+    }
+    .sticky-info { font-size: 0.88rem; }
+    .sticky-info strong { color: var(--accent); font-size: 1rem; }
+    .sticky-btn {
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="preview-bar" id="preview-banner">
+    ✨ LIVE INTERACTIVE WEBSITE PREVIEW — Tap any service below to test 1-Click WhatsApp Booking!
+  </div>
+
+  <nav>
+    <div class="logo">
+      <span id="nav-name">Royal African Barbers</span>
+      <span class="logo-badge" id="nav-badge">VIP</span>
+    </div>
+    <a href="#book-section" class="nav-cta">Book via WhatsApp ⚡</a>
+  </nav>
+
+  <section class="hero" id="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="loc-pill">📍 <span id="hero-loc">Nairobi, Kenya</span> • Open Today</div>
+      <h1 id="hero-title">Precision Grooming & Executive Experience</h1>
+      <p id="hero-sub">Skip the waiting line. Select your package below and confirm your slot or order directly on WhatsApp in 10 seconds.</p>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-val">4.9 ★</div>
+          <div class="stat-lbl">Client Rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">Instant</div>
+          <div class="stat-lbl">WhatsApp Confirmation</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">M-Pesa / Card</div>
+          <div class="stat-lbl">Accepted On-Site</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-title" id="menu-heading">1. Select Your Service / Package</div>
+    <div class="section-sub">Tap one or more options below to calculate your total automatically:</div>
+
+    <div class="services-grid" id="services-container"></div>
+
+    <div class="booking-box" id="book-section">
+      <div class="section-title">2. Confirm & Send to WhatsApp</div>
+      <div class="section-sub">Your selection goes straight to <strong id="form-biz-name">our team</strong> on WhatsApp for instant confirmation.</div>
+
+      <div class="form-grid">
+        <div>
+          <label>Your Name</label>
+          <input type="text" id="client-name" placeholder="e.g. David K." />
+        </div>
+        <div>
+          <label id="date-label">Preferred Day & Time</label>
+          <input type="text" id="client-time" placeholder="e.g. Today at 4:30 PM" />
+        </div>
+      </div>
+      <div style="margin-bottom: 18px;">
+        <label>Special Notes / Location Details (Optional)</label>
+        <input type="text" id="client-notes" placeholder="Any special requests?" />
+      </div>
+
+      <button class="wa-submit" onclick="sendToWhatsApp()">
+        <span>💬 Send Booking on WhatsApp (<span id="btn-total">KSh 0</span>)</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="sticky-bar">
+    <div class="sticky-info">
+      Selected: <strong id="sticky-count">0 items</strong> • Total: <strong id="sticky-total">KSh 0</strong>
+    </div>
+    <button class="sticky-btn" onclick="document.getElementById('book-section').scrollIntoView({behavior:'smooth'})">
+      Continue →
+    </button>
+  </div>
+
+  <script>
+    const CATALOG = {
+      barber: {
+        badge: "Grooming & Spa",
+        heroBg: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1400&q=80",
+        title: (name) => `${name} — Executive Grooming & Spa`,
+        sub: "Skip the queue. Pick your grooming or spa treatment below and lock in your appointment via WhatsApp in 10 seconds.",
+        menuHeading: "1. Choose Your Grooming / Salon Services",
+        dateLabel: "Preferred Appointment Time",
+        items: [
+          { name: "Executive Haircut & Hot Towel", price: 1000, desc: "Precision fade/cut, invigorating scalp massage,beard trim & hot towel finish." },
+          { name: "Signature Beard Sculpt & Steam", price: 600, desc: "Razor line-up, essential oil beard conditioning, and facial steam." },
+          { name: "Full Facial & Black Mask Detox", price: 1500, desc: "Deep pore cleansing, exfoliation, blackhead removal & hydrating glow." },
+          { name: "Dreadlocks Retwist / Styling", price: 2000, desc: "Clean wash, neat retwist, scalp oil treatment, and styling." },
+          { name: "Pedicure & Foot Reflexology", price: 1500, desc: "Warm soak, cuticle care, scrub, and relaxing lower-leg massage." },
+          { name: "VIP Full Package (Cut + Facial + Pedicure)", price: 3500, desc: "Our ultimate head-to-toe executive transformation package." }
+        ]
+      },
+      carwash: {
+        badge: "Auto Detailing",
+        heroBg: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1400&q=80",
+        title: (name) => `${name} — Showroom Shine & Detailing`,
+        sub: "Book your wash or full detailing bay online so we're ready the moment you drive in.",
+        menuHeading: "1. Select Your Vehicle Care Package",
+        dateLabel: "Drop-Off Time & Vehicle Model",
+        items: [
+          { name: "Executive Snow Foam Body & Vacuum", price: 600, desc: "pH-neutral snow foam wash, tire shine, dashboard wipe & deep interior vacuum." },
+          { name: "Underbody & Engine Bay Degrease", price: 1200, desc: "High-pressure chassis mud flush and safe engine bay detailing." },
+          { name: "Full Interior Deep Clean & Steam", price: 3500, desc: "Seats, roof lining, carpets & leather conditioning with antibacterial steam." },
+          { name: "Machine Buffing & Wax Polish", price: 4000, desc: "Swirl mark removal, paint gloss restoration, and hydrophobic carnauba wax." },
+          { name: "Headlight Restoration (Pair)", price: 1500, desc: "Crystal-clear UV restoration for foggy or yellowed headlights." },
+          { name: "Showroom Ceramic Coating Package", price: 12000, desc: "Long-lasting paint protection, mirror gloss, and water-repellent shield." }
+        ]
+      },
+      restaurant: {
+        badge: "Dine & Delivery",
+        heroBg: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1400&q=80",
+        title: (name) => `Welcome to ${name} — Order & Reserve`,
+        sub: "Craving flame-grilled perfection? Tap your favorites below to order for delivery/pickup or reserve a VIP table via WhatsApp.",
+        menuHeading: "1. Tap Menu Items to Add to Your Order",
+        dateLabel: "Delivery / Pickup or Table Time",
+        items: [
+          { name: " Flame-Grilled Platter for 2", price: 3200, desc: "Juicy BBQ ribs, grilled chicken wings, beef skewers, fries & chef's dips." },
+          { name: "Signature Gourmet Double Burger + Fries", price: 1250, desc: "200g prime beef patty, aged cheddar, caramelized onions & seasoned fries." },
+          { name: "Wood-Fired Meat Deluxe Pizza (Large)", price: 1600, desc: "Loaded with mozzarella, pepperoni, beef strips, chicken & bell peppers." },
+          { name: "Chef's Grilled Tilapia / Steak Main", price: 1850, desc: "Served with creamy mashed potatoes, ugali or fries & fresh garden salad." },
+          { name: "Loaded Peri-Peri Chicken Wings (8 pcs)", price: 950, desc: "Crispy flame-tossed wings in your choice of mild, lemon & herb, or hot." },
+          { name: "2x Fresh Passion / Mojito Mocktails", price: 800, desc: "Chilled handcrafted house refreshments." }
+        ]
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const bizName = params.get("biz") || "Royal African Barbers";
+    const bizType = (params.get("type") || "barber").toLowerCase();
+    const bizLoc  = params.get("loc") || "Lavington & CBD, Nairobi";
+    const bizPhone = (params.get("phone") || "254111380501").replace(/[^0-9]/g, "");
+    if (params.get("preview") === "0") {
+      document.getElementById("preview-banner").style.display = "none";
+    }
+
+    const theme = CATALOG[bizType] || CATALOG.barber;
+
+    document.getElementById("page-title").textContent = `${bizName} — Online Booking`;
+    document.getElementById("nav-name").textContent = bizName;
+    document.getElementById("nav-badge").textContent = theme.badge;
+    document.getElementById("hero-loc").textContent = bizLoc;
+    document.getElementById("hero-title").textContent = theme.title(bizName);
+    document.getElementById("hero-sub").textContent = theme.sub;
+    document.getElementById("hero-bg").style.backgroundImage = `url('${theme.heroBg}')`;
+    document.getElementById("menu-heading").textContent = theme.menuHeading;
+    document.getElementById("date-label").textContent = theme.dateLabel;
+    document.getElementById("form-biz-name").textContent = bizName;
+
+    const selected = new Set([0]); // Pre-select first item so user immediately sees how it works!
+    const container = document.getElementById("services-container");
+
+    function renderServices() {
+      container.innerHTML = "";
+      let total = 0;
+      theme.items.forEach((item, idx) => {
+        const isSel = selected.has(idx);
+        if (isSel) total += item.price;
+
+        const card = document.createElement("div");
+        card.className = `service-card ${isSel ? "selected" : ""}`;
+        card.onclick = () => {
+          if (selected.has(idx)) selected.delete(idx);
+          else selected.add(idx);
+          renderServices();
+        };
+        card.innerHTML = `
+          <div>
+            <div class="service-top">
+              <div class="service-name">${item.name}</div>
+              <div class="service-price">KSh ${item.price.toLocaleString()}</div>
+            </div>
+            <div class="service-desc">${item.desc}</div>
+          </div>
+          <div class="select-indicator">
+            ${isSel ? "✅ Selected (Tap to remove)" : "➕ Tap to select"}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      const formattedTotal = `KSh ${total.toLocaleString()}`;
+      document.getElementById("btn-total").textContent = formattedTotal;
+      document.getElementById("sticky-total").textContent = formattedTotal;
+      document.getElementById("sticky-count").textContent = `${selected.size} item${selected.size === 1 ? "" : "s"}`;
+    }
+
+    function sendToWhatsApp() {
+      const name = document.getElementById("client-name").value.trim() || "Customer";
+      const time = document.getElementById("client-time").value.trim() || "Today (Flexible)";
+      const notes = document.getElementById("client-notes").value.trim();
+
+      const chosen = Array.from(selected).map(i => `• ${theme.items[i].name} (KSh ${theme.items[i].price.toLocaleString()})`);
+      const total = Array.from(selected).reduce((acc, i) => acc + theme.items[i].price, 0);
+
+      let msg = `Hello *${bizName}*! 👋\nI'd like to book/order via your website:\n\n`;
+      msg += chosen.length ? chosen.join("\n") : "• General Inquiry";
+      msg += `\n\n*Estimated Total:* KSh ${total.toLocaleString()}`;
+      msg += `\n*Name:* ${name}`;
+      msg += `\n*Preferred Time:* ${time}`;
+      if (notes) msg += `\n*Notes:* ${notes}`;
+      msg += `\n\nPlease confirm my slot!`;
+
+      const url = `https://wa.me/${bizPhone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+    }
+
+    renderServices();
+  </script>
+</body>
+</html>
