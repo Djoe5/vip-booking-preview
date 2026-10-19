@@ -108,7 +108,7 @@ def render_caption_frame(title: str, caption: str, t: float) -> np.ndarray:
     # Bottom hook bar
     draw.text(
         (W // 2, H - 220),
-        "⚡ FOLLOW FOR DAILY WEALTH & TECH PLAYBOOKS",
+        ">> FOLLOW FOR DAILY WEALTH & TECH PLAYBOOKS <<",
         fill=(148, 163, 184),
         font=font_footer,
         anchor="mm",
@@ -122,7 +122,7 @@ async def build_short(item: dict, out_dir: Path):
     temp_clips = []
     temp_audios = []
 
-    print(f"\n🎬 Building: {item['filename']} ...")
+    print(f"\n[*] Building: {item['filename']} ...")
     for idx, seg_text in enumerate(item["segments"]):
         audio_file = out_dir / f"_temp_{idx}.mp3"
         await generate_tts(seg_text, str(audio_file))
@@ -139,14 +139,14 @@ async def build_short(item: dict, out_dir: Path):
 
     final = concatenate_videoclips(temp_clips, method="compose")
     out_path = out_dir / item["filename"]
-    final.write_videofile(str(out_path), fps=24, codec="libx264", audio_codec="aac")
+    final.write_videofile(str(out_path), fps=24, codec="libx264", audio_codec="aac", logger=None)
 
     for c in temp_clips:
         c.close()
     for a in temp_audios:
         if a.exists():
             os.remove(a)
-    print(f"✅ Saved ready-to-upload Short: {out_path}")
+    print(f"[+] Saved ready-to-upload Short: {out_path}")
 
 
 async def main():

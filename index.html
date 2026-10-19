@@ -477,11 +477,23 @@
             <a href="${relUrl}" target="_blank" class="btn btn-preview">
               👁️ Open Custom Website for ${lead.name}
             </a>
+            <button class="btn btn-wa" onclick="sendWa(${idx}, '${lead.phone}')">
+              📲 WhatsApp
+            </button>
+            <button class="btn" style="background:#38bdf8; color:#000;" onclick="sendSms(${idx}, '${lead.phone}')">
+              💬 Direct SMS
+            </button>
+            <button class="btn" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color:#fff;" onclick="sendIg(${idx}, '${lead.ig}', '${lead.name}', this)">
+              📸 Instagram DM
+            </button>
+            <button class="btn" style="background:#1877F2; color:#fff;" onclick="sendSocial(${idx}, 'fb', '${lead.name}', this)">
+              📘 Facebook
+            </button>
+            <button class="btn" style="background:#00f2fe; color:#000;" onclick="sendSocial(${idx}, 'tt', '${lead.name}', this)">
+              🎵 TikTok
+            </button>
             <button class="btn btn-copy" onclick="copyPitch(${idx}, this)">
               📋 Copy Pitch
-            </button>
-            <button class="btn btn-wa" onclick="sendWa(${idx}, '${lead.phone}')">
-              📲 Send on WhatsApp
             </button>
           </div>
         `;
@@ -492,15 +504,55 @@
     function copyPitch(idx, btn) {
       const text = document.getElementById(`pitch-${idx}`).value;
       navigator.clipboard.writeText(text);
-      const old = btn.textContent;
-      btn.textContent = "✅ Copied!";
-      setTimeout(() => (btn.textContent = old), 1800);
+      if (btn) {
+        const old = btn.textContent;
+        btn.textContent = "✅ Copied!";
+        setTimeout(() => (btn.textContent = old), 1800);
+      }
     }
 
     function sendWa(idx, phone) {
       const text = document.getElementById(`pitch-${idx}`).value;
       const cleanPhone = phone.replace(/[^0-9]/g, "");
       window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, "_blank");
+    }
+
+    function sendSms(idx, phone) {
+      const text = document.getElementById(`pitch-${idx}`).value;
+      const cleanPhone = "+" + phone.replace(/[^0-9]/g, "");
+      window.location.href = `sms:${cleanPhone}?body=${encodeURIComponent(text)}`;
+    }
+
+    function sendIg(idx, igHandle, bizName, btn) {
+      const text = document.getElementById(`pitch-${idx}`).value;
+      navigator.clipboard.writeText(text);
+      if (btn) {
+        const old = btn.textContent;
+        btn.textContent = "✅ Copied! Paste in IG";
+        setTimeout(() => (btn.textContent = old), 2500);
+      }
+      const cleanHandle = igHandle.startsWith("@") ? igHandle.slice(1).trim() : "";
+      if (cleanHandle && !cleanHandle.includes(" ")) {
+        window.open(`https://ig.me/m/${cleanHandle}`, "_blank");
+      } else {
+        window.open(`https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(bizName + " Nairobi")}`, "_blank");
+      }
+    }
+
+    function sendSocial(idx, platform, bizName, btn) {
+      const text = document.getElementById(`pitch-${idx}`).value;
+      navigator.clipboard.writeText(text);
+      if (btn) {
+        const old = btn.textContent;
+        btn.textContent = "✅ Copied! Paste DM";
+        setTimeout(() => (btn.textContent = old), 2500);
+      }
+      const q = encodeURIComponent(bizName + " Nairobi");
+      if (platform === "fb") {
+        window.open(`https://www.facebook.com/search/top?q=${q}`, "_blank");
+      } else {
+        window.open(`https://www.tiktok.com/search/user?q=${q}`, "_blank");
+      }
     }
 
     function addCustomLead() {
