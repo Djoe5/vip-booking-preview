@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Service Proposal & Overview — Joe Software Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 18mm 15mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 13.5px;
+    }
+    .page-wrap { max-width: 800px; margin: 0 auto; padding: 10px; }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+    .brand h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+    .brand p {
+      font-size: 12px;
+      color: #0284c7;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .doc-meta { text-align: right; font-size: 11.5px; color: #64748b; }
+    .doc-meta strong { color: #0f172a; font-size: 12.5px; }
+
+    /* Hero Notice */
+    .summary-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0284c7;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .summary-card h2 { font-size: 15px; color: #0f172a; margin-bottom: 6px; }
+    .summary-card p { color: #475569; font-size: 12.8px; }
+
+    /* Sections */
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    /* Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .feature-card h3 { font-size: 13.5px; color: #0284c7; margin-bottom: 4px; font-weight: 700; }
+    .feature-card p { font-size: 12px; color: #64748b; }
+
+    /* Comparison Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 12.5px;
+    }
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 600;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+    }
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    /* Pricing Box */
+    .pricing-box {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pricing-left h3 { font-size: 17px; margin-bottom: 4px; }
+    .pricing-left p { color: #94a3b8; font-size: 12px; }
+    .pricing-right { text-align: right; }
+    .price-tag { font-size: 26px; font-weight: 800; color: #38bdf8; }
+    .price-sub { font-size: 11px; color: #cbd5e1; }
+
+    /* Deliverables */
+    .checklist {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .checklist li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+      color: #334155;
+    }
+    .checklist li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #10b981;
+      font-weight: 800;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 14px;
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-wrap { padding: 0; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">
+        <h1>JOE SOFTWARE AGENCY</h1>
+        <p>Digital Solutions & Web Systems • Nairobi, Kenya</p>
+      </div>
+      <div class="doc-meta">
+        <strong>SERVICE OVERVIEW & PROPOSAL</strong><br>
+        Doc Ref: JSA-2026-PROP<br>
+        Target: Executive Management
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="summary-card">
+      <h2>Executive Summary: The 1-Click WhatsApp Booking & Ordering Engine</h2>
+      <p>Modern consumers in Kenya prefer frictionless interactions. Studies show that <strong>over 70% of potential clients abandon inquiries</strong> when forced to wait for manual Instagram DMs or slow quote replies. We engineer high-speed, mobile-optimized web portals that allow customers to select packages or menu items, calculate costs automatically in KSh, and submit finalized bookings directly to your business WhatsApp in under 10 seconds.</p>
+    </div>
+
+    <!-- The Problem vs Solution -->
+    <div class="section-title">The Challenge vs. The Solution</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Traditional Manual Inquiry</th>
+          <th>Our 1-Click WhatsApp System</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Client asks: <em>"How much for X?"</em> and waits hours for a reply.</td>
+          <td>Client views full interactive menu/service catalog with real-time KSh pricing.</td>
+        </tr>
+        <tr>
+          <td>Staff spends hours typing rates and calculating totals manually.</td>
+          <td>System calculates package combinations and add-ons automatically.</td>
+        </tr>
+        <tr>
+          <td>Third-party platforms charge 15% – 30% commission per order.</td>
+          <td><strong>0% Commission.</strong> 100% of all orders and client data belong to you.</td>
+        </tr>
+        <tr>
+          <td>Missed opportunities during off-hours or peak rush.</td>
+          <td>Structured order details arrive in WhatsApp ready for instant confirmation.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Key Deliverables -->
+    <div class="section-title">Scope of Deliverables</div>
+    <div class="grid-2">
+      <div class="feature-card">
+        <h3>⚡ Mobile-First Responsive Design</h3>
+        <p>Ultra-fast loading speed on all mobile devices and networks with custom brand styling, photos, and color palette.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🛒 Interactive Cart & Calculator</h3>
+        <p>Customers tap to select single or multiple services/dishes. Real-time automatic KSh tally and notes input.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📲 Direct WhatsApp Integration</h3>
+        <p>Formats the complete order, chosen time slot, customer name, and total into a clean WhatsApp message sent directly to your phone.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🌐 High-Speed Secure Hosting</h3>
+        <p>Hosted on enterprise global infrastructure with SSL encryption. 99.9% uptime guarantee with zero maintenance headaches.</p>
+      </div>
+    </div>
+
+    <!-- Transparent Investment -->
+    <div class="section-title">Investment & Timeline</div>
+    <div class="pricing-box">
+      <div class="pricing-left">
+        <h3>Complete Turnkey Setup Package</h3>
+        <p>Full design, price list digitization, WhatsApp routing & launch</p>
+      </div>
+      <div class="pricing-right">
+        <div class="price-tag">KSh 5,000</div>
+        <div class="price-sub">One-Off Setup • No Monthly Retainers</div>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li><strong>Turnaround Time:</strong> Delivered and live within <strong>24 to 48 hours</strong> upon menu/service list confirmation.</li>
+      <li><strong>Revisions Included:</strong> Full customization of all services, rates, opening hours, and branding.</li>
+      <li><strong>No Monthly Lock-in:</strong> You own your system without recurring software subscription fees.</li>
+    </ul>
+
+    <!-- Footer -->
+    <div class="footer">
+      Joe Software Agency • Nairobi, Kenya • Web Development & Automation Solutions<br>
+      Confidential • Prepared for Prospective Business Partners
+    </div>
+
+  </div>
+</body>
+</html>
