@@ -43,6 +43,42 @@ SCRIPTS = [
             "Your focus will instantly return to superhuman levels.",
             "Follow The Mind Glitch and save this video."
         ],
+    },
+    {
+        "filename": "short_kinetic_gta_dark_psychology.mp4",
+        "bg_video": "gta_vertical.mp4",
+        "title": "THE DARK PSYCHOLOGY RULE",
+        "sentences": [
+            "Most people fail because they wait for motivation.",
+            "Motivation is a chemical trap that disappears in five minutes.",
+            "The top one percent build systems that execute regardless of emotions.",
+            "If you do not build your own dream, someone will hire you to build theirs.",
+            "Follow The Mind Glitch and master your psychology."
+        ],
+    },
+    {
+        "filename": "short_kinetic_gta_ai_cashflow.mp4",
+        "bg_video": "gta_vertical.mp4",
+        "title": "THE 2026 AI CASHFLOW",
+        "sentences": [
+            "Ninety-nine percent of people use AI to write funny jokes.",
+            "The smart one percent use AI to build daily cash machines.",
+            "Local businesses will gladly pay you fifty dollars for a one-click website.",
+            "You can deploy the entire site in ten minutes for zero dollars.",
+            "Check the link in bio to grab the exact playbook."
+        ],
+    },
+    {
+        "filename": "short_kinetic_gta_silent_wealth.mp4",
+        "bg_video": "gta_vertical.mp4",
+        "title": "RULE OF SILENT WEALTH",
+        "sentences": [
+            "Never announce your goals before you execute them.",
+            "When you talk about your plans, your brain gets fake satisfaction.",
+            "Work in complete silence and let your bank balance make the noise.",
+            "Stack digital assets every single day while the crowd stays distracted.",
+            "Follow The Mind Glitch for daily wealth rules."
+        ],
     }
 ]
 
@@ -186,12 +222,28 @@ async def build_short(item: dict, out_dir: Path):
     print(f"[+] Saved ready-to-upload Short: {out_path}")
 
 
+import sys
+
 async def main():
     out_dir = ROOT_DIR / "generated_shorts"
     out_dir.mkdir(exist_ok=True)
-    for item in SCRIPTS:
-        await build_short(item, out_dir)
+    
+    target_scripts = SCRIPTS
+    if len(sys.argv) > 1 and sys.argv[1].isdigit():
+        idx = int(sys.argv[1])
+        if 0 <= idx < len(SCRIPTS):
+            target_scripts = [SCRIPTS[idx]]
+        else:
+            print(f"[!] Invalid index {idx}. Available: 0 to {len(SCRIPTS)-1}")
+            return
 
+    for item in target_scripts:
+        out_path = out_dir / item["filename"]
+        if out_path.exists() and "--force" not in sys.argv:
+            print(f"[*] Skipping {item['filename']} (already exists). Use --force to re-render.")
+            continue
+        print(f"\n[>] Rendering: {item['title']} -> {item['filename']}")
+        await build_short(item, out_dir)
 
 if __name__ == "__main__":
     asyncio.run(main())
