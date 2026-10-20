@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Operating Timetable • The Mind Glitch & Joe Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #111520;
+      --card: #171c2b;
+      --card-hover: #1e2538;
+      --accent: #f59e0b;
+      --neon-cyan: #06b6d4;
+      --green: #10b981;
+      --purple: #a855f7;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 32px 20px 80px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #161b2a 0%, #0d111a 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent); }
+    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: var(--neon-cyan); }
+    .badge-green { background: rgba(16, 185, 129, 0.15); color: var(--green); }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 680px;
+    }
+
+    /* Target Revenue Bar */
+    .target-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+    .stat-amber { color: var(--accent); }
+    .stat-green { color: var(--green); }
+    .stat-cyan { color: var(--neon-cyan); }
+
+    /* Quick Launch Bar */
+    .quick-launch {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .launch-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .launch-btn:hover {
+      background: var(--card-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .launch-btn span { font-size: 1.3rem; }
+
+    /* Timeline Section */
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .time-slot {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 20px;
+      transition: all 0.2s ease;
+    }
+    .time-slot:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: var(--card);
+    }
+    @media (max-width: 640px) {
+      .time-slot { grid-template-columns: 1fr; gap: 10px; }
+    }
+
+    .time-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .time-badge {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(245, 158, 11, 0.1);
+      padding: 6px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      width: fit-content;
+      margin-bottom: 6px;
+    }
+    .block-name {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .content-col h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .content-col p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+    }
+
+    .action-checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      user-select: none;
+    }
+    .action-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+    .action-item.checked {
+      text-decoration: line-through;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* Golden Rules */
+    .rules-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(17, 21, 32, 1) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 18px;
+      padding: 24px;
+      margin-top: 10px;
+    }
+    .rules-card h3 {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rules-card ul {
+      padding-left: 20px;
+      color: #cbd5e1;
+      font-size: 0.92rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <div class="badge-row">
+        <span class="badge badge-amber">⚡ The Mind Glitch</span>
+        <span class="badge badge-cyan">💼 Joe Software Agency</span>
+        <span class="badge badge-green">🇰🇪 Nairobi Local Time (EAT)</span>
+      </div>
+      <h1>Daily Revenue Execution Timetable</h1>
+      <p class="subtitle">A structured, high-output daily routine balancing fast-cash client acquisition (KSh 5,000–6,000/deal) and automated viral media growth.</p>
+    </header>
+
+    <!-- Key Targets -->
+    <div class="target-bar">
+      <div class="stat-card">
+        <div class="stat-label">Daily Outreach Target</div>
+        <div class="stat-val stat-amber">10 Pitches</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Daily Video Output</div>
+        <div class="stat-val stat-cyan">2 Shorts / Reels</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Daily Revenue Goal</div>
+        <div class="stat-val stat-green">KSh 5,000+</div>
+      </div>
+    </div>
+
+    <!-- Quick Tool Launcher -->
+    <div class="quick-launch">
+      <a href="index.html" target="_blank" class="launch-btn">
+        <span>💬</span>
+        <div>Outreach Dashboard<br><small style="color:var(--muted)">20 Pre-loaded Leads</small></div>
+      </a>
+      <a href="https://djoe5.github.io/vip-booking-preview/bio.html" target="_blank" class="launch-btn">
+        <span>🌐</span>
+        <div>Live Bio Portal<br><small style="color:var(--muted)">djoe5.github.io</small></div>
+      </a>
+      <a href="Client_Proposal_Joe_Software_Agency.html" target="_blank" class="launch-btn">
+        <span>📄</span>
+        <div>Agency Proposal<br><small style="color:var(--muted)">PDF Deliverables</small></div>
+      </a>
+      <a href="https://www.tiktok.com/upload" target="_blank" class="launch-btn">
+        <span>🎬</span>
+        <div>TikTok Direct Upload<br><small style="color:var(--muted)">tiktok.com/upload</small></div>
+      </a>
+    </div>
+
+    <!-- The Operating Schedule -->
+    <div class="section-title">🕒 Your Daily Step-by-Step Schedule (EAT)</div>
+
+    <div class="timeline">
+
+      <!-- Slot 1 -->
+      <div class="time-slot">
+        <div class="time-col">
+          <div class="time-badge">08:00 – 09:30</div>
+          <div class="block-name">Content Ignition</div>
+        </div>
+        <div class="content-col">
+          <h3>🎬 Viral Video Rendering & Distribution</h3>
+          <p>Kick off the day by publishing 2 60FPS vertical shorts to drive traffic, attention, and inbound leads.</p>
+          <ul class="action-checklist">
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Run generator for Video 1 (e.g. Money Glitch / GTA Ramp)</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Publish Reel to Instagram <code>@them.indglitch</code></span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Upload to YouTube Shorts (<code>@JosephNjogu-h9b8o</code>)</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Upload to TikTok (<code>tiktok.com/upload</code>) with kinetic captions</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slot 2 -->
+      <div class="time-slot">
+        <div class="time-col">
+          <div class="time-badge">10:00 – 12:30</div>
+          <div class="block-name">Cash Sprint #1</div>
+        </div>
+        <div class="content-col">
+          <h3>🔥 WhatsApp High-Converting Outreach</h3>
+          <p>Prime business hours in Nairobi. Business owners (barbers, salon managers, auto detailing, clinics) are active on WhatsApp and checking customer inquiries.</p>
+          <ul class="action-checklist">
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Open <a href="index.html" style="color:var(--neon-cyan)">Outreach Dashboard</a></span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Send WhatsApp pitch to 5 Barbershops / Salons (with their preview link)</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Send WhatsApp pitch to 3 Car Washes & Detailing Centers</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Send WhatsApp pitch to 2 Clinics / Gyms</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slot 3 -->
+      <div class="time-slot">
+        <div class="time-col">
+          <div class="time-badge">14:00 – 16:30</div>
+          <div class="block-name">Deal Closing</div>
+        </div>
+        <div class="content-col">
+          <h3>🤝 Responses, Demos & M-Pesa Closing</h3>
+          <p>Respond instantly to interested owners. Walk them through the 1-click cart and secure the booking.</p>
+          <ul class="action-checklist">
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Reply to client inquiries within 5 minutes</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Send custom interactive demo link loaded with their specific prices</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Share Agency Proposal PDF if they ask for deliverables & terms</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Close the deal: Collect 50% deposit (KSh 2,500 – 3,000) or full payment via M-Pesa</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slot 4 -->
+      <div class="time-slot">
+        <div class="time-col">
+          <div class="time-badge">16:30 – 18:00</div>
+          <div class="block-name">Rapid Delivery</div>
+        </div>
+        <div class="content-col">
+          <h3>⚡ 15-Minute Client Site Deployment</h3>
+          <p>Because the engine is already built, delivering a paid client website takes under 15 minutes.</p>
+          <ul class="action-checklist">
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Plug client's exact WhatsApp phone number into <code>demo.html</code></span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Upload their logo & specific service menu list</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Push live to Netlify or GitHub Pages with their custom name</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Hand off live URL to client & collect remaining balance</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slot 5 -->
+      <div class="time-slot">
+        <div class="time-col">
+          <div class="time-badge">19:30 – 21:00</div>
+          <div class="block-name">Review & Prep</div>
+        </div>
+        <div class="content-col">
+          <h3>📈 Community, Analytics & Tomorrow's Scripts</h3>
+          <p>Engage with video comments, track daily views, and queue up topics for tomorrow morning.</p>
+          <ul class="action-checklist">
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Reply to comments on Instagram Reels & YouTube Shorts</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Follow up with leads who opened the site but didn't reply yet</span>
+            </li>
+            <li class="action-item">
+              <input type="checkbox" onchange="toggleItem(this)">
+              <span>Select tomorrow's 2 topics in <code>shorts_generator.py</code></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Operational Rules -->
+    <div class="rules-card">
+      <h3>💡 3 Non-Negotiable Rules for Daily Profit</h3>
+      <ul>
+        <li><strong>Speed to Lead:</strong> When a business owner replies on WhatsApp, reply within 3 minutes. Fast response = 80% higher closing rate.</li>
+        <li><strong>Always Include the Demo Link:</strong> Never pitch plain text. Always send their customized interactive preview link so they see their own business on their phone.</li>
+        <li><strong>Consistency Over Perfection:</strong> 10 WhatsApp messages and 2 videos every single day guarantees weekly cash flow. No excuses, no missing days.</li>
+      </ul>
+    </div>
+
+    <footer>
+      The Mind Glitch • Joe Software Agency • Nairobi, Kenya
+    </footer>
+
+  </div>
+
+  <script>
+    function toggleItem(checkbox) {
+      const parent = checkbox.closest('.action-item');
+      if (checkbox.checked) {
+        parent.classList.add('checked');
+      } else {
+        parent.classList.remove('checked');
+      }
+      saveState();
+    }
+
+    function saveState() {
+      const states = [];
+      document.querySelectorAll('.action-item input[type="checkbox"]').forEach((cb, idx) => {
+        states.push(cb.checked);
+      });
+      localStorage.setItem('mindglitch_timetable_state', JSON.stringify(states));
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem('mindglitch_timetable_state');
+      if (saved) {
+        const states = JSON.parse(saved);
+        document.querySelectorAll('.action-item input[type="checkbox"]').forEach((cb, idx) => {
+          if (states[idx]) {
+            cb.checked = true;
+            cb.closest('.action-item').classList.add('checked');
+          }
+        });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadState);
+  </script>
+</body>
+</html>
