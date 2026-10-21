@@ -70,7 +70,7 @@ SCRIPTS = [
     },
     {
         "filename": "short_kinetic_gta_silent_wealth.mp4",
-        "bg_video": "gta_vertical.mp4",
+        "bg_video": "gameplay_bg.mp4",
         "title": "RULE OF SILENT WEALTH",
         "sentences": [
             "Never announce your goals before you execute them.",
@@ -92,6 +92,9 @@ async def generate_tts(text: str, out_path: str):
     await communicate.save(out_path)
 
 
+from functools import lru_cache
+
+@lru_cache(maxsize=16)
 def get_font(size: int):
     paths = [
         r"C:\Windows\Fonts\impact.ttf",
@@ -107,17 +110,39 @@ def get_font(size: int):
     return ImageFont.load_default()
 
 
-def render_kinetic_frame(bg_frame: np.ndarray, title: str, words: list, word_idx: int) -> np.ndarray:
+EMOJI_MAP = {
+    "MONEY": " 💸", "DOLLARS": " 💵", "SHILLINGS": " 💰", "CASH": " 🤑",
+    "BRAIN": " 🧠", "ATTENTION": " 🎯", "DOPAMINE": " ⚡", "FOCUS": " 👁️",
+    "RULES": " 📜", "SECRET": " 🤫", "TRAP": " 🪤", "LIE": " ⚠️",
+    "STOP": " 🛑", "FAIL": " ❌", "FREE": " 🔓", "RICH": " 👑",
+    "AI": " 🤖", "DIGITAL": " 💻", "SYSTEMS": " ⚙️", "CLIENT": " 🤝",
+    "HOURS": " ⏳", "RESET": " 🔄", "FREEDOM": " 🚀"
+}
+
+PALETTES = [
+    (0, 255, 102),   # Neon Green
+    (0, 245, 255),   # Cyber Cyan
+    (255, 230, 0),   # Electric Gold
+    (255, 50, 150),  # Hot Magenta
+]
+
+def render_kinetic_frame(bg_frame: np.ndarray, title: str, words: list, word_idx: int, progress: float = 0.0) -> np.ndarray:
     """
     Renders ONLY the active 1-2 words currently spoken.
-    Massive 115pt font, heavy 14px black outline, neon green highlight, floating seamlessly.
+    Massive 115pt font, heavy 14px black outline, dynamic neon color, contextual emojis,
+    and a sleek animated progress bar.
     """
     img = Image.fromarray(bg_frame).convert("RGBA")
     draw = ImageDraw.Draw(img)
 
     font_title = get_font(52)
-    font_word = get_font(115)
+    font_word = get_font(110)
     font_sub = get_font(38)
+
+    # Sleek animated top progress bar (boosts watch completion)
+    bar_width = int(W * max(0.0, min(1.0, progress)))
+    if bar_width > 0:
+        draw.rectangle([(0, 0), (bar_width, 10)], fill=(0, 245, 255, 230))
 
     # Floating top title in electric yellow (no box)
     draw.text(
@@ -130,19 +155,22 @@ def render_kinetic_frame(bg_frame: np.ndarray, title: str, words: list, word_idx
         stroke_fill=(0, 0, 0),
     )
 
-    # Word-by-word active chunk (1 to 2 words max)
+    # Word-by-word active chunk
     if words:
         curr_word = words[min(word_idx, len(words) - 1)].upper()
-        # Clean punctuation for display
         clean_word = re.sub(r'[^A-Z0-9$]', '', curr_word)
+        
+        # Attach high-energy contextual emoji if recognized
+        emoji = EMOJI_MAP.get(clean_word, "")
+        display_text = clean_word + emoji
 
-        # Alternating neon green and electric yellow for punch
-        neon_color = (0, 255, 102) if (word_idx % 2 == 0) else (255, 230, 0)
+        # Dynamic cycling neon color
+        neon_color = PALETTES[word_idx % len(PALETTES)]
 
         # Floating active word in center-lower third
         draw.text(
             (W // 2, 1140),
-            clean_word,
+            display_text,
             fill=neon_color,
             font=font_word,
             anchor="mm",
@@ -190,12 +218,15 @@ async def build_short(item: dict, out_dir: Path):
         num_words = max(1, len(words))
         word_dur = dur / num_words
         seg_start_t = t_pointer
+        elapsed_before = t_pointer - 8.0
 
-        def make_frame(t, w_list=words, w_dur=word_dur, title=item["title"], start_t=seg_start_t):
+        def make_frame(t, w_list=words, w_dur=word_dur, title=item["title"], start_t=seg_start_t, el_before=elapsed_before):
             bg_time = (start_t + t) % bg_clip.duration
             bg_frame = bg_clip.get_frame(bg_time)
             curr_idx = min(int(t / w_dur), len(w_list) - 1)
-            return render_kinetic_frame(bg_frame, title, w_list, curr_idx)
+            # Rough 20s total estimate for progress bar
+            progress = min(1.0, (el_before + t) / 22.0)
+            return render_kinetic_frame(bg_frame, title, w_list, curr_idx, progress=progress)
 
         v_clip = VideoClip(make_frame, duration=dur).with_audio(audio_clip)
         temp_clips.append(v_clip)
