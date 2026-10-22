@@ -79,6 +79,30 @@ SCRIPTS = [
             "Stack digital assets every single day while the crowd stays distracted.",
             "Follow The Mind Glitch for daily wealth rules."
         ],
+    },
+    {
+        "filename": "short_kinetic_gta_dopamine_trap.mp4",
+        "bg_video": "gta_vertical.mp4",
+        "title": "THE DOPAMINE TRAP",
+        "sentences": [
+            "Your phone is designed to steal your focus and keep you broke.",
+            "Every infinite scroll floods your brain with cheap dopamine.",
+            "The top performers protect their attention like gold.",
+            "Cut the noise, master your craft, and build daily income streams.",
+            "Follow The Mind Glitch to take back your mind."
+        ],
+    },
+    {
+        "filename": "short_kinetic_gta_money_machine.mp4",
+        "bg_video": "gameplay_bg.mp4",
+        "title": "THE 100-DOLLAR GLITCH",
+        "sentences": [
+            "Here is how to make your first one hundred dollars online.",
+            "Find five local business owners who have no website.",
+            "Offer them a clean modern booking page in twenty-four hours.",
+            "Charge fifty dollars each and use free AI templates.",
+            "Check the link in bio to copy my exact framework."
+        ],
     }
 ]
 
@@ -203,13 +227,14 @@ async def build_short(item: dict, out_dir: Path):
     temp_clips = []
     temp_audios = []
 
-    print(f"\n[*] Rendering: {item['filename']} with Real-Time Word-By-Word Kinetic Subtitles...")
+    print(f"\n[*] Rendering: {item['filename']} with Real-Time Word-By-Word Kinetic Subtitles...", flush=True)
     t_pointer = 8.0 # Start 8 seconds in where the car ramp action is intense
 
     for idx, sentence in enumerate(item["sentences"]):
         audio_file = out_dir / f"_temp_{idx}.mp3"
         await generate_tts(sentence, str(audio_file))
         temp_audios.append(audio_file)
+        print(f"  [+] TTS chunk {idx+1}/{len(item['sentences'])} done", flush=True)
 
         audio_clip = AudioFileClip(str(audio_file))
         dur = audio_clip.duration
@@ -232,6 +257,7 @@ async def build_short(item: dict, out_dir: Path):
         temp_clips.append(v_clip)
         t_pointer += dur
 
+    print(f"  [+] Concatenating and encoding {item['filename']}...", flush=True)
     final = concatenate_videoclips(temp_clips, method="compose")
     out_path = out_dir / item["filename"]
     final.write_videofile(
@@ -250,7 +276,7 @@ async def build_short(item: dict, out_dir: Path):
             os.remove(a)
     bg_clip.close()
 
-    print(f"[+] Saved ready-to-upload Short: {out_path}")
+    print(f"[+] Saved ready-to-upload Short: {out_path}", flush=True)
 
 
 import sys
@@ -271,9 +297,9 @@ async def main():
     for item in target_scripts:
         out_path = out_dir / item["filename"]
         if out_path.exists() and "--force" not in sys.argv:
-            print(f"[*] Skipping {item['filename']} (already exists). Use --force to re-render.")
+            print(f"[*] Skipping {item['filename']} (already exists). Use --force to re-render.", flush=True)
             continue
-        print(f"\n[>] Rendering: {item['title']} -> {item['filename']}")
+        print(f"\n[>] Rendering: {item['title']} -> {item['filename']}", flush=True)
         await build_short(item, out_dir)
 
 if __name__ == "__main__":
