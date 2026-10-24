@@ -103,6 +103,42 @@ SCRIPTS = [
             "Charge fifty dollars each and use free AI templates.",
             "Check the link in bio to copy my exact framework."
         ],
+    },
+    {
+        "filename": "short_kinetic_gta_7_second_rule.mp4",
+        "bg_video": "gta_vertical.mp4",
+        "title": "THE 7-SECOND RULE",
+        "sentences": [
+            "Your brain has a seven second window before it kills your ambition.",
+            "The moment you have an instinct to act, count down seven seconds and move.",
+            "If you hesitate, your mind creates fear and excuses to keep you safe.",
+            "High performers do not wait to feel ready, they execute immediately.",
+            "Follow The Mind Glitch and master your mental discipline."
+        ],
+    },
+    {
+        "filename": "short_kinetic_gta_digital_monopoly.mp4",
+        "bg_video": "gameplay_bg.mp4",
+        "title": "THE DIGITAL MONOPOLY",
+        "sentences": [
+            "Ten-person agencies are getting completely replaced by solo creators.",
+            "One person using free AI tools can deliver websites in twenty minutes.",
+            "Charge fifty dollars per client and take five clients a week.",
+            "That is over one hundred and thirty thousand shillings pure profit every month.",
+            "Check the link in bio to copy the exact automated setup."
+        ],
+    },
+    {
+        "filename": "short_kinetic_gta_silent_moves.mp4",
+        "bg_video": "gta_vertical.mp4",
+        "title": "NEVER REVEAL YOUR CARDS",
+        "sentences": [
+            "The biggest mistake broke people make is seeking validation.",
+            "They post their goals, brag about their plans, and end up achieving nothing.",
+            "Move in total stealth until the results are too loud to ignore.",
+            "Stack cash, build systems, and let your silence do the talking.",
+            "Follow The Mind Glitch and protect your energy."
+        ],
     }
 ]
 
@@ -140,7 +176,9 @@ EMOJI_MAP = {
     "RULES": " 📜", "SECRET": " 🤫", "TRAP": " 🪤", "LIE": " ⚠️",
     "STOP": " 🛑", "FAIL": " ❌", "FREE": " 🔓", "RICH": " 👑",
     "AI": " 🤖", "DIGITAL": " 💻", "SYSTEMS": " ⚙️", "CLIENT": " 🤝",
-    "HOURS": " ⏳", "RESET": " 🔄", "FREEDOM": " 🚀"
+    "HOURS": " ⏳", "RESET": " 🔄", "FREEDOM": " 🚀", "SECONDS": " ⏱️",
+    "SILENCE": " 🤫", "DISCIPLINE": " 🛡️", "ENERGY": " ⚡", "CARDS": " 🃏",
+    "FEAR": " 🥶", "POWER": " ⚡", "PROFIT": " 📈", "ACTION": " 🚀"
 }
 
 PALETTES = [
